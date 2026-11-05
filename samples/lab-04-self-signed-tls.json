@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "tool": "VulnScope 1.0",
+  "kind": "recorded-local-lab-scan",
+  "target": "127.0.0.1",
+  "started_at_utc": "2026-11-05T08:29:06.606222+00:00",
+  "duration_seconds": 0.021,
+  "configuration": {
+    "ports": [
+      8768
+    ],
+    "timeout_seconds": 0.75,
+    "workers": 6,
+    "authorization_acknowledged": true
+  },
+  "ports": [
+    {
+      "port": 8768,
+      "state": "open",
+      "detail": "TCP connect succeeded",
+      "elapsed_ms": 1.2
+    }
+  ],
+  "services": [
+    {
+      "port": 8768,
+      "hint": "HTTPS lab",
+      "evidence": "",
+      "confidence": "inferred"
+    }
+  ],
+  "http": [
+    {
+      "port": 8768,
+      "scheme": "https",
+      "status": null,
+      "headers": {},
+      "error": "SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1029)",
+      "redirect": null
+    }
+  ],
+  "tls": [
+    {
+      "port": 8768,
+      "verified": false,
+      "verification_error": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1029)",
+      "protocol": "TLSv1.3",
+      "cipher": "TLS_AES_256_GCM_SHA384",
+      "certificate": {
+        "subject": "CN=localhost",
+        "issuer": "CN=localhost",
+        "not_before": "2026-11-05T08:28:06+00:00",
+        "not_after": "2026-11-12T08:29:06+00:00",
+        "days_remaining": 6,
+        "expired": false,
+        "not_yet_valid": false,
+        "self_issued": true
+      },
+      "certificate_authenticated": false,
+      "error": null
+    }
+  ],
+  "scan_incomplete": false,
+  "findings": [
+    {
+      "id": "TLS-TRUST",
+      "title": "TLS certificate trust or identity validation failed",
+      "severity": "Medium",
+      "target": "127.0.0.1",
+      "port": 8768,
+      "description": "TLS certificate trust or identity validation failed",
+      "evidence": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1029)",
+      "impact": "Clients cannot establish authenticated server identity.",
+      "remediation": "Install a valid certificate chain whose SAN matches the assessed address; lab self-signed certificates are expected exceptions.",
+      "reference": "https://wiki.mozilla.org/Security/Server_Side_TLS",
+      "limitations": "Verification can also fail due to missing local CA trust or lab-issued certificates."
+    }
+  ],
+  "severity_counts": {
+    "Critical": 0,
+    "High": 0,
+    "Medium": 1,
+    "Low": 0,
+    "Informational": 0
+  },
+  "methodology": "Authorized IP-only TCP connect checks; passive banner sampling; HEAD / on known HTTP ports; verified TLS handshake plus clearly labeled untrusted certificate diagnostics.",
+  "limitations": "Only configured ports and a single HTTP root response are checked. Service names are inferred from ports, not authenticated. No exploitation, CVE confirmation, weak-cipher enumeration, authentication, or subnet discovery. A clean scan does not establish system security.",
+  "source_note": "Captured by record_demos.py against controlled loopback lab; not live.",
+  "demo_case": "lab-04-self-signed-tls"
+}

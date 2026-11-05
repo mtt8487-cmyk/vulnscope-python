@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "tool": "VulnScope 1.0",
+  "kind": "recorded-local-lab-scan",
+  "target": "127.0.0.1",
+  "started_at_utc": "2026-11-05T08:29:06.598273+00:00",
+  "duration_seconds": 0.002,
+  "configuration": {
+    "ports": [
+      8765
+    ],
+    "timeout_seconds": 0.75,
+    "workers": 6,
+    "authorization_acknowledged": true
+  },
+  "ports": [
+    {
+      "port": 8765,
+      "state": "open",
+      "detail": "TCP connect succeeded",
+      "elapsed_ms": 0.4
+    }
+  ],
+  "services": [
+    {
+      "port": 8765,
+      "hint": "HTTP lab",
+      "evidence": "",
+      "confidence": "inferred"
+    }
+  ],
+  "http": [
+    {
+      "port": 8765,
+      "scheme": "http",
+      "status": 200,
+      "headers": {
+        "server": "BaseHTTP/0.6 Python/3.13.5",
+        "date": "Thu, 05 Nov 2026 08:29:06 GMT",
+        "content-type": "text/html; charset=UTF-8"
+      },
+      "error": null,
+      "redirect": null
+    }
+  ],
+  "tls": [],
+  "scan_incomplete": false,
+  "findings": [
+    {
+      "id": "HTTP-CSP",
+      "title": "Missing Content-Security-Policy",
+      "severity": "Medium",
+      "target": "127.0.0.1",
+      "port": 8765,
+      "description": "Missing Content-Security-Policy",
+      "evidence": "HTTP HEAD / returned 200; content-security-policy header absent.",
+      "impact": "Absent CSP may reduce mitigation against injected active content.",
+      "remediation": "Deploy a tested, restrictive Content-Security-Policy.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Missing header alone does not establish exploitation; review actual endpoint and browser context."
+    },
+    {
+      "id": "HTTP-FRAME",
+      "title": "No observed clickjacking framing restriction",
+      "severity": "Low",
+      "target": "127.0.0.1",
+      "port": 8765,
+      "description": "No observed clickjacking framing restriction",
+      "evidence": "Neither CSP frame-ancestors nor valid X-Frame-Options present in HTML response.",
+      "impact": "The page could permit undesired framing.",
+      "remediation": "Set CSP frame-ancestors or X-Frame-Options after checking intended embeds.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Only sampled the root HEAD response; exploitability depends on page behavior."
+    },
+    {
+      "id": "HTTP-XCTO",
+      "title": "Missing X-Content-Type-Options",
+      "severity": "Low",
+      "target": "127.0.0.1",
+      "port": 8765,
+      "description": "Missing X-Content-Type-Options",
+      "evidence": "HTTP HEAD / returned 200; x-content-type-options header absent.",
+      "impact": "Browsers may MIME-sniff ambiguous content.",
+      "remediation": "Set X-Content-Type-Options: nosniff.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Missing header alone does not establish exploitation; review actual endpoint and browser context."
+    },
+    {
+      "id": "HTTP-BANNER",
+      "title": "Server header disclosed",
+      "severity": "Informational",
+      "target": "127.0.0.1",
+      "port": 8765,
+      "description": "Server header disclosed",
+      "evidence": "Server: BaseHTTP/0.6 Python/3.13.5",
+      "impact": "Discloses a server identifier that may assist reconnaissance.",
+      "remediation": "Review whether a detailed Server header is necessary; patching matters more than hiding it.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Server banner may be inaccurate; no version-specific vulnerability has been verified."
+    }
+  ],
+  "severity_counts": {
+    "Critical": 0,
+    "High": 0,
+    "Medium": 1,
+    "Low": 2,
+    "Informational": 1
+  },
+  "methodology": "Authorized IP-only TCP connect checks; passive banner sampling; HEAD / on known HTTP ports; verified TLS handshake plus clearly labeled untrusted certificate diagnostics.",
+  "limitations": "Only configured ports and a single HTTP root response are checked. Service names are inferred from ports, not authenticated. No exploitation, CVE confirmation, weak-cipher enumeration, authentication, or subnet discovery. A clean scan does not establish system security.",
+  "source_note": "Captured by record_demos.py against controlled loopback lab; not live.",
+  "demo_case": "lab-01-missing-headers"
+}

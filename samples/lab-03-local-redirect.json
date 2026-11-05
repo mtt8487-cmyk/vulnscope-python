@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "tool": "VulnScope 1.0",
+  "kind": "recorded-local-lab-scan",
+  "target": "127.0.0.1",
+  "started_at_utc": "2026-11-05T08:29:06.602465+00:00",
+  "duration_seconds": 0.003,
+  "configuration": {
+    "ports": [
+      8767
+    ],
+    "timeout_seconds": 0.75,
+    "workers": 6,
+    "authorization_acknowledged": true
+  },
+  "ports": [
+    {
+      "port": 8767,
+      "state": "open",
+      "detail": "TCP connect succeeded",
+      "elapsed_ms": 0.3
+    }
+  ],
+  "services": [
+    {
+      "port": 8767,
+      "hint": "HTTP lab",
+      "evidence": "",
+      "confidence": "inferred"
+    }
+  ],
+  "http": [
+    {
+      "port": 8767,
+      "scheme": "http",
+      "status": 302,
+      "headers": {
+        "server": "BaseHTTP/0.6 Python/3.13.5",
+        "date": "Thu, 05 Nov 2026 08:29:06 GMT",
+        "location": "http://127.0.0.1:8766/"
+      },
+      "error": null,
+      "redirect": "http://127.0.0.1:8766/"
+    }
+  ],
+  "tls": [],
+  "scan_incomplete": false,
+  "findings": [
+    {
+      "id": "HTTP-BANNER",
+      "title": "Server header disclosed",
+      "severity": "Informational",
+      "target": "127.0.0.1",
+      "port": 8767,
+      "description": "Server header disclosed",
+      "evidence": "Server: BaseHTTP/0.6 Python/3.13.5",
+      "impact": "Discloses a server identifier that may assist reconnaissance.",
+      "remediation": "Review whether a detailed Server header is necessary; patching matters more than hiding it.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Server banner may be inaccurate; no version-specific vulnerability has been verified."
+    },
+    {
+      "id": "HTTP-REDIRECT",
+      "title": "Redirect observed (not followed)",
+      "severity": "Informational",
+      "target": "127.0.0.1",
+      "port": 8767,
+      "description": "Redirect observed (not followed)",
+      "evidence": "Location: http://127.0.0.1:8766/",
+      "impact": "A redirect destination may require a separate authorization check.",
+      "remediation": "Verify redirect destinations and secure transport manually.",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html",
+      "limitations": "Redirect was intentionally not followed; destination not scanned."
+    }
+  ],
+  "severity_counts": {
+    "Critical": 0,
+    "High": 0,
+    "Medium": 0,
+    "Low": 0,
+    "Informational": 2
+  },
+  "methodology": "Authorized IP-only TCP connect checks; passive banner sampling; HEAD / on known HTTP ports; verified TLS handshake plus clearly labeled untrusted certificate diagnostics.",
+  "limitations": "Only configured ports and a single HTTP root response are checked. Service names are inferred from ports, not authenticated. No exploitation, CVE confirmation, weak-cipher enumeration, authentication, or subnet discovery. A clean scan does not establish system security.",
+  "source_note": "Captured by record_demos.py against controlled loopback lab; not live.",
+  "demo_case": "lab-03-local-redirect"
+}

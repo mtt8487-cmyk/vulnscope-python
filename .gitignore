@@ -1,0 +1,26 @@
+# Environments, caches, and build outputs
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+# Secrets and local assessment output
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+private-reports/
+reports/
+*.pem
+*.key
+*.crt
+# IDE, OS, runtime
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+# No local server certificate or private results on GitHub
+lab-cert/
