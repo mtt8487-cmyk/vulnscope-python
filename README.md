@@ -1,12 +1,29 @@
 # 🛡️ VulnScope — Python Vulnerability Scanner
 
+
+**[Live Demo](https://vulnscope-mtt.streamlit.app/)** | **[GitHub Repository](https://github.com/mtt8487-cmyk/vulnscope-python)**
+
+VulnScope is a Python-based network vulnerability assessment tool featuring TCP port scanning, HTTP security checks, TLS certificate analysis, and automated security reporting.
+
+The public demo provides an interactive exploration of recorded security assessments. Live authorized scanning is available in the locally installed application.
+
+
 **A real, scope-limited network configuration assessment and reporting application.**
 
 VulnScope performs authorized TCP connect scans, conservative service identification, read-only HTTP header checks, TLS certificate analysis, explainable security findings, and downloadable assessment reports. It includes a dark-themed Streamlit dashboard and five **recorded, real loopback-lab scan results** for safe recruiter demonstrations. **No exploits, brute force, or arbitrary public-internet scanning.**
 
-> **Important:** Run `app.py` **locally only**. Deploy **`public_app.py`** for a read-only public portfolio demo; it has no scanning functionality.
 
-> Dashboard screenshots can be added in `screenshots/` after you run and verify the app locally. No screenshot is represented as real before capture.
+## Application Screenshots
+
+### Local Vulnerability Scanner
+
+![VulnScope Dashboard](screenshots/dashboard.png)
+
+### Security Findings
+
+![VulnScope Security Findings](screenshots/security-findings.png)
+
+
 
 ## Features
 
@@ -20,7 +37,7 @@ VulnScope performs authorized TCP connect scans, conservative service identifica
 | Findings | Documented rules, evidence, severity, remediation, references and limitations | No automatic CVE/CVSS claims |
 | Reporting | JSON, CSV and standalone HTML | CSV exports findings only; JSON preserves full scan |
 | UI | Local scanner + separate public read-only Streamlit explorer | Demo is historical, not a live assessment |
-| Tests | 50 automated tests in the packaged build | Tests are not a formal security audit |
+| Tests | 51 automated tests in the packaged build | Tests are not a formal security audit |
 
 ## Quick start (Windows 11, PowerShell, Python 3.11)
 
