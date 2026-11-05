@@ -117,10 +117,7 @@ docs/                  Detailed 12-phase setup + interview preparation
 
 At packaging time, 50 automated tests passed on Linux / Python 3.13.5, and the sample scans were actually executed against local test servers. **Python 3.11/Windows 11 execution and a live Streamlit browser demonstration still need validation on the user's machine.**
 
-## Full walkthrough and recruiter preparation
 
-- [12-phase Windows walkthrough](docs/DEVELOPMENT_GUIDE.md)
-- [Resume, LinkedIn and technical interview preparation](docs/INTERVIEW_PREP.md)
 
 ## Authoritative references
 
